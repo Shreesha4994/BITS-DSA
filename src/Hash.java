@@ -43,28 +43,32 @@ public class Hash {
     }
 
     public void addEntry(Account account) {
-        int categoryIndex = hash(account.getPanNumber());
-        SL_HashTable slHashTable = flHashTable.getHashTable(categoryIndex);
+        try {
+            int categoryIndex = hash(account.getPanNumber());
+            SL_HashTable slHashTable = flHashTable.getHashTable(categoryIndex);
 
-        int hashTableSize = hashSize[categoryIndex];
-        int hashValue = account.getPanNumber().hashCode() % hashTableSize;
-        int position = hashValue;
+            int hashTableSize = hashSize[categoryIndex];
+            int hashValue = account.getPanNumber().hashCode() % hashTableSize;
+            int position = hashValue;
 
-        int collisionCount = 0;
-        while (slHashTable.getAccounts()[position] != null) {
-            collisionCount++;
-            position = (hashValue + (collisionCount * collisionCount)) % hashTableSize;
-        }
+            int collisionCount = 0;
+            while (slHashTable.getAccounts()[position] != null) {
+                collisionCount++;
+                position = (hashValue + (collisionCount * collisionCount)) % hashTableSize;
+            }
 
-        slHashTable.getAccounts()[position] = account;
+            slHashTable.getAccounts()[position] = account;
 
-        if (collisionCount > 0) {
-            System.out.println("Collision occurred for PAN " + account.getPanNumber() + ". Resolved with quadratic probing.");
-        }
+            if (collisionCount > 0) {
+                System.out.println("Collision occurred for PAN " + account.getPanNumber() + ". Resolved with quadratic probing.");
+            }
 
-        // Check if rehashing is needed
-        if (collisionCount > 0 && collisionCount >= (hashTableSize / 2)) {
-            extend_rehash(categoryIndex);
+            // Check if rehashing is needed
+            if (collisionCount > 0 && collisionCount >= (hashTableSize / 2)) {
+                extend_rehash(categoryIndex);
+            }
+        } catch (Exception e) {
+            System.out.println("The PAN number: "+ account.getPanNumber()+" couldn't be inserted because it is invalid");
         }
     }
 
@@ -89,37 +93,43 @@ public class Hash {
     }
 
     public void searchDetails(String pan) {
-        int categoryIndex = hash(pan);
-        SL_HashTable slHashTable = flHashTable.getHashTable(categoryIndex);
+        try {
+            int categoryIndex = hash(pan);
+            SL_HashTable slHashTable = flHashTable.getHashTable(categoryIndex);
 
-        boolean found = false;
-        int hashCode = pan.hashCode() % slHashTable.getSize();
-        if (hashCode < 0) {
-            hashCode += slHashTable.getSize();
-        }
-        int index = hashCode;
-        int probe = 1;
+            boolean found = false;
+            int hashCode = pan.hashCode() % slHashTable.getSize();
+            if (hashCode < 0) {
+                hashCode += slHashTable.getSize();
+            }
+            int index = hashCode;
+            int probe = 1;
 
-        while (slHashTable.getAccounts()[index] != null && probe < slHashTable.getSize()) {
-            if (slHashTable.getAccounts()[index].getPanNumber().equals(pan)) {
-                String output = "The entry " + pan + " does exist - " + slHashTable.getAccounts()[index].getName();
+            while (slHashTable.getAccounts()[index] != null && probe < slHashTable.getSize()) {
+                if (slHashTable.getAccounts()[index].getPanNumber().equals(pan)) {
+                    String output = "The entry " + pan + " does exist - " + slHashTable.getAccounts()[index].getName();
+                    System.out.println(output);
+                    found = true;
+                    break;
+                }
+
+                probe++;
+                index = (hashCode + (probe * probe)) % slHashTable.getSize();
+                if (index < 0) {
+                    index += slHashTable.getSize();
+                }
+            }
+
+            if (!found) {
+                String output = "The entry " + pan + " doesn't exist";
                 System.out.println(output);
-                found = true;
-                break;
             }
-
-            probe++;
-            index = (hashCode + (probe * probe)) % slHashTable.getSize();
-            if (index < 0) {
-                index += slHashTable.getSize();
-            }
-        }
-
-        if (!found) {
-            String output = "The entry " + pan + " doesn't exist";
-            System.out.println(output);
+        } catch (Exception e) {
+            // Handle the exception here
+            System.out.println("The PAN number("+pan+") you are trying to search is invalid");
         }
     }
+
 
 
 
