@@ -1,4 +1,6 @@
 import java.util.Arrays;
+import java.util.regex.Pattern;
+import java.util.regex.Matcher;
 
 public class Hash {
     private FL_HashTable flHashTable;
@@ -15,30 +17,39 @@ public class Hash {
     }
 
     public int hash(String pan) {
-        char category = pan.charAt(3);
-        switch (category) {
-            case 'C':
-                return 0;
-            case 'P':
-                return 1;
-            case 'H':
-                return 2;
-            case 'F':
-                return 3;
-            case 'A':
-                return 4;
-            case 'T':
-                return 5;
-            case 'B':
-                return 6;
-            case 'L':
-                return 7;
-            case 'J':
-                return 8;
-            case 'G':
-                return 9;
-            default:
-                return -1;
+        String regex = "[A-Z]{5}\\d{4}[A-Z]";
+
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(pan);
+
+        if (matcher.matches()) {
+            char category = pan.charAt(3);
+            switch (category) {
+                case 'C':
+                    return 0;
+                case 'P':
+                    return 1;
+                case 'H':
+                    return 2;
+                case 'F':
+                    return 3;
+                case 'A':
+                    return 4;
+                case 'T':
+                    return 5;
+                case 'B':
+                    return 6;
+                case 'L':
+                    return 7;
+                case 'J':
+                    return 8;
+                case 'G':
+                    return 9;
+                default:
+                    return -1;
+            }
+        } else {
+            return -1;
         }
     }
 
@@ -129,14 +140,5 @@ public class Hash {
             System.out.println("The PAN number("+pan+") you are trying to search is invalid");
         }
     }
-
-
-
-
-
-
-
-
-
 
 }
