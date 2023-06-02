@@ -1,3 +1,5 @@
+package main;
+
 public class SL_HashTable {
     private int size;
     private Account[] accounts;

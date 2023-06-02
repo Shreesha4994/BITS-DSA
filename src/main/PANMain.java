@@ -1,3 +1,5 @@
+package main;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
@@ -17,14 +19,14 @@ public class PANMain {
         int choice = 0;
 
         do {
-            System.out.print("Enter your choice (1-4): ");
+            System.out.print("Enter your choice (1-3): ");
             choice = scanner.nextInt();
             scanner.nextLine(); // Consume the newline character
 
             switch (choice) {
                 case 1:
                     try {
-                        File inputFile = new File("C:/Users/I527370/codes/DSAASSG/panmg/src/input.txt");
+                        File inputFile = new File("src/data/input.txt");
                         Scanner fileScanner = new Scanner(inputFile);
 
                         while (fileScanner.hasNextLine()) {
@@ -44,11 +46,11 @@ public class PANMain {
                         fileScanner.close();
                     } catch (FileNotFoundException e) {
                         System.out.println("Input file not found.");
-                        return;
                     }
+                    break;
                 case 2:
                     try {
-                        File searchFile = new File("C:/Users/I527370/codes/DSAASSG/panmg/src/search.txt");
+                        File searchFile = new File("src/data/search.txt");
                         Scanner fileScanner = new Scanner(searchFile);
 
                         while (fileScanner.hasNextLine()) {
@@ -59,7 +61,6 @@ public class PANMain {
                         fileScanner.close();
                     } catch (FileNotFoundException e) {
                         System.out.println("Search file not found.");
-                        return;
                     }
                     break;
                 case 3:

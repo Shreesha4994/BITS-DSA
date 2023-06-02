@@ -1,3 +1,5 @@
+package main;
+
 public class FL_HashTable {
     private SL_HashTable[] hashTables;
 
@@ -15,7 +17,7 @@ public class FL_HashTable {
         if (index >= 0 && index < 10) {
             return hashTables[index];
         } else {
-            throw new IndexOutOfBoundsException("Invalid index for FL_HashTable");
+            throw new IndexOutOfBoundsException("Invalid index for java.FL_HashTable");
         }
     }
 

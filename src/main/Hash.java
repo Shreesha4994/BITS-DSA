@@ -1,3 +1,5 @@
+package main;
+
 import java.util.Arrays;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
@@ -100,7 +102,7 @@ public class Hash {
             }
         }
 
-        System.out.println("Extended SL_HashTable for category " + categoryIndex + ". New size: " + newSize);
+        System.out.println("Extended java.SL_HashTable for category " + categoryIndex + ". New size: " + newSize);
     }
 
     public void searchDetails(String pan) {
