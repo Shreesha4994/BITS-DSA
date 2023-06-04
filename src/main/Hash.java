@@ -55,13 +55,21 @@ public class Hash {
         }
     }
 
+    public int secondHash(String pan) {
+        int h2 = 0;
+        for(int i=0 ; i < pan.length() ; i++){
+            h2 = h2 + (int) pan.charAt(i);
+        }
+        return h2;
+    }
+
     public void addEntry(Account account) {
         try {
             int categoryIndex = hash(account.getPanNumber());
             SL_HashTable slHashTable = flHashTable.getHashTable(categoryIndex);
 
             int hashTableSize = hashSize[categoryIndex];
-            int hashValue = account.getPanNumber().hashCode() % hashTableSize;
+            int hashValue = secondHash(account.getPanNumber())% hashTableSize;
             int position = hashValue;
 
             int collisionCount = 0;
@@ -111,7 +119,7 @@ public class Hash {
             SL_HashTable slHashTable = flHashTable.getHashTable(categoryIndex);
 
             boolean found = false;
-            int hashCode = pan.hashCode() % slHashTable.getSize();
+            int hashCode = secondHash(pan) % slHashTable.getSize();
             if (hashCode < 0) {
                 hashCode += slHashTable.getSize();
             }

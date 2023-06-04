@@ -16,22 +16,22 @@ public class PANMain {
         System.out.println("3. Quit");
 
         Scanner scanner = new Scanner(System.in);
-        int choice = 0;
+        String choice;
 
         do {
             System.out.print("Enter your choice (1-3): ");
-            choice = scanner.nextInt();
+            choice = scanner.next();
             scanner.nextLine(); // Consume the newline character
 
             switch (choice) {
-                case 1:
+                case "1":
                     try {
                         File inputFile = new File("src/data/input.txt");
                         Scanner fileScanner = new Scanner(inputFile);
 
                         while (fileScanner.hasNextLine()) {
                             String line = fileScanner.nextLine();
-                            String[] columns = line.split(" ");
+                            String[] columns = line.split(",");
 
                             if (columns.length == 3) {
                                 String pan = columns[0];
@@ -48,7 +48,7 @@ public class PANMain {
                         System.out.println("Input file not found.");
                     }
                     break;
-                case 2:
+                case "2":
                     try {
                         File searchFile = new File("src/data/search.txt");
                         Scanner fileScanner = new Scanner(searchFile);
@@ -63,13 +63,13 @@ public class PANMain {
                         System.out.println("Search file not found.");
                     }
                     break;
-                case 3:
+                case "3":
                     System.out.println("Quitting the program.");
                     break;
                 default:
                     System.out.println("Invalid choice. Please try again.");
                     break;
             }
-        } while (choice != 3);
+        } while (!choice.equals("3"));
     }
 }
